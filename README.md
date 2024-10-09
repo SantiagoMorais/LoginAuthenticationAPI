@@ -171,11 +171,11 @@ export const createNewUser: FastifyPluginAsyncZod = async (app) => {
   - **passwordHash:** é a versão "hash" da senha original, que foi gerada usando o algoritmo bcrypt junto com o salt. Quando um usuário tenta fazer login, a senha fornecida é hasheada novamente com o mesmo salt, e o hash resultante é comparado com o hash armazenado no banco de dados. Se os hashes corresponderem, a senha está correta.
   - Em resumo, o uso de salt e hashing torna o armazenamento de senhas mais seguro, dificultando a recuperação da senha original, mesmo que alguém tenha acesso ao banco de dados.
 
-7. Criando o usuário no banco de dados
+7. Criando o usuário no banco de dados.
 
-8. O método `.save()` vai persistir o dado no banco de dados e salvá-lo
+8. O método `.save()` vai persistir o dado no banco de dados e salvá-lo.
 
-9. Verificações de erro, para casos de erros no servidor
+9. Verificações de erro, para casos de erros no servidor.
 
 Passando por todos os testes e sendo todos os dados bem preenchidos, o resultado será este:
 
