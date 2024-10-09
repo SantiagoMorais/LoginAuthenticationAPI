@@ -6,7 +6,6 @@ import {
 } from "fastify-type-provider-zod";
 import "dotenv/config";
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { env } from "../env.ts";
 import fastifyCors from "@fastify/cors";

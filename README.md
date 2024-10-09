@@ -78,15 +78,19 @@ export const publicRoute: FastifyPluginAsyncZod = async (app) => {
 
 ### Rota de criação de novo usuário
 
+Nesta rota o usuário será criado e adicionado ao banco de dados. O código será divido em etapas e explicado logo abaixo:
+
 ```ts
 export const createNewUser: FastifyPluginAsyncZod = async (app) => {
   app.post(
+    // 1
     "/auth/register",
     {
+      // 2
       schema: {
         body: z
           .object({
-            name: z.string(),
+            name: z.string().min(2),
             email: z.string().email(),
             password: z.string().min(6).max(15),
             confirmPassowrd: z.string().min(6).max(15),
@@ -98,18 +102,92 @@ export const createNewUser: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, res) => {
-      const { name, email, password } = req.body;
+      // 3
+      const { name, email, password, confirmPassowrd } = req.body;
 
-      // Verificações se os campos foram preenchidos
+      // 4
+      if (!name) {
+        return res.status(422).send({ message: "Name is required" });
+      }
 
-      res
-        .status(201)
-        .header("content-type", "application-json; charset=utf-8")
-        .send({ message: "User successful created" });
+      if (!email) {
+        return res.status(422).send({ message: "Email is required" });
+      }
+
+      if (!password) {
+        return res.status(422).send({ message: "Password is required" });
+      }
+
+      // 5
+      const userExist = await User.findOne({ email });
+
+      if (userExist) {
+        return res
+          .status(422)
+          .send({ message: "This email is already in use" });
+      }
+
+      // 6
+      const salt = await bcrypt.genSalt(12);
+      const passwordHash = await bcrypt.hash(password, salt);
+
+      // 7
+      const user = new User({
+        name,
+        email,
+        password: passwordHash,
+      });
+
+      try {
+        // 8
+        await user.save();
+        res.status(201).send({
+          message: "User successful created",
+          user,
+        });
+      } catch (error) {
+        // 9
+        res
+          .status(500)
+          .send({ msg: "Something went wrong, please try again later." });
+      }
     }
   );
 };
 ```
+
+1. Nossa rota para registro de usuário.
+
+2. Schema utilizando zod, para que ele seja o responsável para garantir que os dados recebidos pelo corpo da requisição estão corretamente preenchidos.
+
+3. Desestruturação do corpo da requisição, com os dados que definimos no nosso schema utilizando zod.
+
+4. Verificações adicionais para verificar se todos os campos foram preenchidos.
+
+5. Checar se o usuário existe, verificando se existe algum usuário com o email recebido já cadastrado no banco de dados.
+
+6. Criando o sistema de senha
+  - **salt:** é um valor aleatório que é gerado e adicionado à senha antes de ser processada por um algoritmo de hash (como o bcrypt). O propósito do salt é garantir que a mesma senha não produza o mesmo hash quando é armazenada em diferentes lugares. Isso ajuda a proteger as senhas contra ataques de pré-computação, como tabelas rainbow.
+  - **passwordHash:** é a versão "hash" da senha original, que foi gerada usando o algoritmo bcrypt junto com o salt. Quando um usuário tenta fazer login, a senha fornecida é hasheada novamente com o mesmo salt, e o hash resultante é comparado com o hash armazenado no banco de dados. Se os hashes corresponderem, a senha está correta.
+  - Em resumo, o uso de salt e hashing torna o armazenamento de senhas mais seguro, dificultando a recuperação da senha original, mesmo que alguém tenha acesso ao banco de dados.
+
+7. Criando o usuário no banco de dados
+
+8. O método `.save()` vai persistir o dado no banco de dados e salvá-lo
+
+9. Verificações de erro, para casos de erros no servidor
+
+Passando por todos os testes e sendo todos os dados bem preenchidos, o resultado será este:
+
+![Resultado de um usuário criado com sucesso](src/assets/screenshots/userCreated.png)
+
+Veja que a senha foi corretamente criptografada. Tenha em mente que a senha que visualizamos não é a que o usuário escreveu. Mesmo que a senha seja simples e curta ela terá este padrão "aleatório". As senhas dos usuários são armazenadas de forma segura utilizando criptografia com o algoritmo bcrypt. Quando um usuário se registra, sua senha é **hasheada**, gerando uma sequência de caracteres que não revela a senha original. Mesmo que alguém tenha acesso ao banco de dados, não conseguirá descobrir as senhas dos usuários.
+
+Durante o processo de login, a senha fornecida pelo usuário é novamente hasheada com o mesmo algoritmo e salt. O bcrypt compara o hash resultante com o hash armazenado no banco de dados. Se ambos os hashes corresponderem, a senha está correta e o acesso é concedido. Essa abordagem oferece uma camada extra de segurança, garantindo que as senhas dos usuários permaneçam protegidas, mesmo em caso de comprometimento do banco de dados.
+
+Por fim, verificamos se o usuário já existe no banco de dados. Se tentarmos criar um novo usuário utilizand o mesmo email já cadastrado o resultado será este:
+
+![Aviso de email já cadastrado no banco de dados](src/assets/screenshots/duplicatedUser.png)
 
 ## Conexão com o banco de dados
 
