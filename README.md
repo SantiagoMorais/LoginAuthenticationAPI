@@ -11,8 +11,8 @@
 - [Rotas da aplicação](#rotas-da-aplicação)
   - [Rota pública](#rota-pública)
 - [Conexão com o banco de dados](#conexão-com-o-banco-de-dados)
-    - [Configuração do arquivo .env](#configuração-do-arquivo-env)
-    - [Configuração do mongoose](#configuração-do-mongoose)
+  - [Configuração do arquivo .env](#configuração-do-arquivo-env)
+  - [Configuração do mongoose](#configuração-do-mongoose)
 
 ## Bibliotecas
 
@@ -160,3 +160,20 @@ Em seguida, utilizaremos o método `then()`, para que caso a conexão com o banc
   .catch((err) => console.log(err));
 ```
 
+### Configurando nosso modelo / model
+
+Na pasta `src/models/User.ts` criamos nosso esquema do banco de dados, os dados que o banco receberá para criação da tabela.
+
+```ts
+import mongoose, { Schema } from "mongoose";
+
+const userSchema = new Schema({
+  name: String,
+  email: String,
+  password: String,
+});
+
+export const User = mongoose.model("User", userSchema);
+```
+
+Agora através do `User` (deve ser em maiúscula mesmo, por padrão) conseguimos utilizar as funcionalidades do banco de dados através de filtros, como encontrar dados ou adicioná-los.
