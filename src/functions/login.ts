@@ -1,6 +1,8 @@
 import { FastifyReply } from "fastify";
 import { User } from "../models/User.ts";
 import bcrypt from "bcrypt";
+import { env } from "../env.ts";
+import jwt from "jsonwebtoken";
 
 interface ILogin {
   email: string;
@@ -33,6 +35,24 @@ export const login = async ({ email, password, res }: ILogin) => {
   }
 
   // Aqui realizamos a autenticação do usuário no sistema
+  try {
+    const secret = env.SECRET;
+    // teste de token
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      secret
+    );
+
+    res
+      .status(200)
+      .send({ message: "Autenticação realizada com sucesso", token });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ msg: "Something went wrong, please try again later." });
+  }
 
   res.send(user);
 };
