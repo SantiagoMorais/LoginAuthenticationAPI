@@ -66,12 +66,49 @@ DB_PASSWORD=<sua-senha-de-administrador>
 Rota inicial da aplicação, acessível a todos os usuários cadastrados ou não. Seria nossa sessão home.
 
 ```ts
-app.get("/", (req, res) => {
-  res
-    .status(200)
-    .header("Content-Type", "application/json; charset=utf-8")
-    .send({ msg: "Rota inicial" });
-});
+export const publicRoute: FastifyPluginAsyncZod = async (app) => {
+  app.get("/", (_, res) => {
+    res
+      .status(200)
+      .header("Content-Type", "application/json; charset=utf-8")
+      .send({ message: "Initial route" });
+  });
+};
+```
+
+### Rota de criação de novo usuário
+
+```ts
+export const createNewUser: FastifyPluginAsyncZod = async (app) => {
+  app.post(
+    "/auth/register",
+    {
+      schema: {
+        body: z
+          .object({
+            name: z.string(),
+            email: z.string().email(),
+            password: z.string().min(6).max(15),
+            confirmPassowrd: z.string().min(6).max(15),
+          })
+          .refine((data) => data.password === data.confirmPassowrd, {
+            message: "Passwords must be the same",
+            path: ["confirmPassword"],
+          }),
+      },
+    },
+    async (req, res) => {
+      const { name, email, password } = req.body;
+
+      // Verificações se os campos foram preenchidos
+
+      res
+        .status(201)
+        .header("content-type", "application-json; charset=utf-8")
+        .send({ message: "User successful created" });
+    }
+  );
+};
 ```
 
 ## Conexão com o banco de dados

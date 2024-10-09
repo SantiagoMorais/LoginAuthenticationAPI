@@ -13,6 +13,6 @@
     "skipLibCheck": true,
     "moduleResolution": "node16",
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
   }
 }
