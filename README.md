@@ -3,7 +3,11 @@
 <img />
 
 ## Sumário
+
 - [Bibliotecas](#bibliotecas)
+  - [Dependências](#dependências)
+  - [Dependências de Desenvolvimento](#dependências-de-desenvolvimento)
+- [Rotas da aplicação](#rotas-da-aplicação)
 
 ## Bibliotecas
 
@@ -33,3 +37,17 @@
 
 - [tsx](https://tsx.is): tsx significa "TypeScript Excecute" e é um aprimoramento do Node.js para executar TypeScript. Podemos pensar no tsx como um "apelido" para node no terminal, substituindo `node src/app.js` por `tsx src/app.ts`
 
+## Rotas da aplicação
+
+### Rota pública
+
+Rota inicial da aplicação, acessível a todos os usuários cadastrados ou não. Seria nossa sessão home.
+
+```ts
+app.get("/", (req, res) => {
+  res
+    .status(200)
+    .header("Content-Type", "application/json; charset=utf-8")
+    .send({ msg: "Rota inicial" });
+});
+```
