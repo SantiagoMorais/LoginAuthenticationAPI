@@ -51,7 +51,7 @@ export const login = async ({ email, password, res }: ILogin) => {
   } catch (error) {
     res
       .status(500)
-      .send({ msg: "Something went wrong, please try again later." });
+      .send();
   }
 
   res.send(user);

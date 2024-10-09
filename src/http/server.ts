@@ -11,6 +11,7 @@ import fastifyCors from "@fastify/cors";
 import { publicRoute } from "./routes/publicRoute.ts";
 import { createNewUserRoute } from "./routes/createNewUser.ts";
 import { loginRoute } from "./routes/loginRoute.ts";
+import { getUserRoute } from "./routes/getUserRoute.ts";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 const port = 3000;
@@ -27,6 +28,7 @@ app.register(fastifyCors, {
 app.register(publicRoute);
 app.register(createNewUserRoute);
 app.register(loginRoute);
+app.register(getUserRoute);
 
 mongoose
   .connect(
