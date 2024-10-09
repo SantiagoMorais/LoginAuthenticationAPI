@@ -20,6 +20,7 @@
   - [Criação de usuário](#criação-de-usuário)
   - [Login](#login)
   - [Coletar informações do usuário após login](#coletar-informações-do-usuário-após-login)
+- [Autor](#autor)
 
 ## Bibliotecas
 
@@ -525,26 +526,27 @@ Agora através do `User` (deve ser em maiúscula mesmo, por padrão) conseguimos
 1. Clonar o projeto via github
 
 2. Ter Node e npm instalados. Neste projeto foram utilizados nas versões:
-    - Node v20.17.0
-    - npm v10.8.2
 
-2. Instalar as dependências via `npm install`
+   - Node v20.17.0
+   - npm v10.8.2
 
-3. Criar um novo usuário no [MongoDB Atlas](https://www.mongodb.com/pt-br). A versão gratuita é o suficiente.
+3. Instalar as dependências via `npm install`
 
-4. Criar um novo projeto no Mongodb Atlas e o banco de dados.
-![Criação de novo projeto no mongodb](src/assets/screenshots/mongodbNewProject.png)
+4. Criar um novo usuário no [MongoDB Atlas](https://www.mongodb.com/pt-br). A versão gratuita é o suficiente.
 
-5. Ir em banco de dado, data services e criar novo cluster
-![Criação de novo cluster no mongodb](src/assets/screenshots/mongodbCreateNewCluster.png)
+5. Criar um novo projeto no Mongodb Atlas e o banco de dados.
+   ![Criação de novo projeto no mongodb](src/assets/screenshots/mongodbNewProject.png)
 
-6. Em Security, Database Access, adicicionar novo usuário ao banco de dados:
-![Criação de novo usuário no mongodb](src/assets/screenshots/mongodbCreateNewUser.png)
+6. Ir em banco de dado, data services e criar novo cluster
+   ![Criação de novo cluster no mongodb](src/assets/screenshots/mongodbCreateNewCluster.png)
 
-7. Copie e salve o nome de usuário e a senha de administrador escolhida, pois eles serão necessários para ter acesso ao banco de dados.
+7. Em Security, Database Access, adicicionar novo usuário ao banco de dados:
+   ![Criação de novo usuário no mongodb](src/assets/screenshots/mongodbCreateNewUser.png)
 
-8. Crie um arquivo `.env` na raiz da sua aplicação e adicione seu nome de usuário, senha e secret neste padrão:
-    - ignore a abertura e fechamento de chaves "<>", coloque os dados sem aspas ou qualquer outro caracter especial os envolvendo.
+8. Copie e salve o nome de usuário e a senha de administrador escolhida, pois eles serão necessários para ter acesso ao banco de dados.
+
+9. Crie um arquivo `.env` na raiz da sua aplicação e adicione seu nome de usuário, senha e secret neste padrão:
+   - ignore a abertura e fechamento de chaves "<>", coloque os dados sem aspas ou qualquer outro caracter especial os envolvendo.
 
 ```
 DB_USER=<nome-de-usuario>
@@ -561,3 +563,11 @@ SECRET=<senha-secreta-de-acesso-exclusivo-do-servidor>
 ![Visualizar dados no banco](src/assets/screenshots/mongodbBrowserCollections.png)
 
 11. Rodar o servidor utilizando o código no terminal `npm run dev` e o servidor começará a funcionar. Caso apareça alguma mensagem de erro, conferir se as configurações foram todas realizadas corretamente.
+
+## Autor
+
+- GitHub - [Felipe Santiago Morais](https://github.com/SantiagoMorais)
+- Linkedin - [Felipe Santiago](https://www.linkedin.com/in/felipe-santiago-873025288/)
+- Instagram - [@felipe.santiago.morais](https://www.instagram.com/felipe.santiago.morais)
+- Email - <a href="mailto:contatofelipesantiago@gmail.com" target="blank">contatofelipesantiago@gmail.com</a>
+- <a href="https://api.whatsapp.com/send?phone=5531996951033&text=Hi%2C%20Felipe%21%20I%20got%20your%20contact%20from%20your%20portfolio.">Whatsapp</a>
