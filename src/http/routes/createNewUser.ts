@@ -1,9 +1,8 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { User } from "../../models/User.ts";
-import bcrypt from "bcrypt";
+import { createNewUser } from "../../functions/createNewUser.ts";
 
-export const createNewUser: FastifyPluginAsyncZod = async (app) => {
+export const createNewUserRoute: FastifyPluginAsyncZod = async (app) => {
   app.post(
     "/auth/register",
     {
@@ -22,48 +21,9 @@ export const createNewUser: FastifyPluginAsyncZod = async (app) => {
       },
     },
     async (req, res) => {
-      const { name, email, password, confirmPassowrd } = req.body;
+      const { name, email, password } = req.body;
 
-      if (!name) {
-        return res.status(422).send({ message: "Name is required" });
-      }
-
-      if (!email) {
-        return res.status(422).send({ message: "Email is required" });
-      }
-
-      if (!password) {
-        return res.status(422).send({ message: "Password is required" });
-      }
-
-      const userExist = await User.findOne({ email });
-
-      if (userExist) {
-        return res
-          .status(422)
-          .send({ message: "This email is already in use" });
-      }
-
-      const salt = await bcrypt.genSalt(12);
-      const passwordHash = await bcrypt.hash(password, salt);
-
-      const user = new User({
-        name,
-        email,
-        password: passwordHash,
-      });
-
-      try {
-        await user.save();
-        res.status(201).send({
-          message: "User successful created",
-          user,
-        });
-      } catch (error) {
-        res
-          .status(500)
-          .send({ msg: "Something went wrong, please try again later." });
-      }
+      await createNewUser({ email, name, password, res });
     }
   );
 };

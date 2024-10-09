@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 import { env } from "../env.ts";
 import fastifyCors from "@fastify/cors";
 import { publicRoute } from "./routes/publicRoute.ts";
-import { createNewUser } from "./routes/createNewUser.ts";
+import { createNewUserRoute } from "./routes/createNewUser.ts";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 const port = 3000;
@@ -25,7 +25,7 @@ app.register(fastifyCors, {
 });
 
 app.register(publicRoute);
-app.register(createNewUser);
+app.register(createNewUserRoute);
 
 mongoose
   .connect(
