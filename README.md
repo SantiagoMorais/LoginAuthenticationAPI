@@ -22,6 +22,22 @@
   - [Coletar informações do usuário após login](#coletar-informações-do-usuário-após-login)
 - [Autor](#autor)
 
+## Objetivos
+
+O objetivo deste projeto é criar uma API de cadastro e login de usuário, mas não somente um simples login. O objetivo é realizar autenticação de usuários, criação de tokens para acesso de páginas restritas, verificação de senhas e nomes de usuário e mais.
+
+- Criação de uma rota pública, onde todos os usuários podem acessar
+- Criação de usuários e verificação de dados, como email, nome, senha e confirmação de senha válidos.
+- Sistema de login de usuários e criação personalizado de token para acesso de rotas seguras.
+- Acesso a informações seguras somente com a presença e autenticação de um token em cabeçalho.
+
+Sistema de segurança utilizando:
+
+- [Zod](https://zod.dev/): Para verificação de credenciais enviadas no corpo da requisição.
+- [bcrypt](https://www.npmjs.com/package/bcrypt): Para criptografar senhas, assim aumentar a segurança.
+- [jsonWebToken](https://jwt.io): Criação de tokens únicos e validação de acesso para rotas privadas
+- [mongoose](https://mongoosejs.com): Para criação dos dados no banco de dados MongoDB.
+
 ## Bibliotecas
 
 ### Dependências
