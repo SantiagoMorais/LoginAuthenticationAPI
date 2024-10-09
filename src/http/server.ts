@@ -3,7 +3,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { env } from "./env.ts";
+import { env } from "../env.ts";
 
 const app = fastify();
 const port = 3000;
