@@ -1,6 +1,6 @@
 # API de criação de usuários e autenticação de senha
 
-<img />
+![banner](src/assets/imgs/banner.png)
 
 ## Sumário
 
