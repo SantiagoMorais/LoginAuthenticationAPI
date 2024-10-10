@@ -11,7 +11,6 @@ interface ILogin {
 }
 
 export const login = async ({ email, password, res }: ILogin) => {
-  // Checar se o usuário existe no banco de dados
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -20,24 +19,20 @@ export const login = async ({ email, password, res }: ILogin) => {
       .send({ message: "User not found, please check your email" });
   }
 
-  // Verificação de que a senha retornada não é null ou undefined
   if (!user.password || typeof user.password !== "string") {
     return res
       .status(500)
       .send({ message: "Password data is invalid or missing" });
   }
 
-  // Verificar se a senha bate com a senha do usuário corresponte ao email inserido
   const checkPassword = await bcrypt.compare(password, user.password);
 
   if (!checkPassword) {
     return res.status(401).send({ message: "Email or Password incorrect" });
   }
 
-  // Aqui realizamos a autenticação do usuário no sistema
   try {
     const secret = env.SECRET;
-    // teste de token
     const token = jwt.sign(
       {
         id: user._id,
@@ -47,7 +42,7 @@ export const login = async ({ email, password, res }: ILogin) => {
 
     res
       .status(200)
-      .send({ message: "Autenticação realizada com sucesso", token });
+      .send({ message: "Autenticação realizada com sucesso", token, id: user.id });
   } catch (error) {
     res
       .status(500)
