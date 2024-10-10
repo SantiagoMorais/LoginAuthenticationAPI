@@ -4,6 +4,7 @@
 
 ## Sumário
 
+- [Objetivos](#objetivos)
 - [Bibliotecas](#bibliotecas)
   - [Dependências](#dependências)
   - [Dependências de Desenvolvimento](#dependências-de-desenvolvimento)
