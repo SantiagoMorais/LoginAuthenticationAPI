@@ -1,9 +1,11 @@
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
+import { deleteUser } from "../../functions/deleteUser.ts";
+import { checkToken } from "../../functions/checkToken.ts";
 
 export const deleteUserRoute: FastifyPluginAsyncZod = async (app) => {
   app.delete(
-    "/user/delete",
+    "/auth/delete",
     {
       schema: {
         body: z.object({
@@ -12,8 +14,11 @@ export const deleteUserRoute: FastifyPluginAsyncZod = async (app) => {
         }),
       },
     },
-    (req, res) => {
+    async (req, res) => {
       const { id, password } = req.body;
+      checkToken(req, res);
+
+      await deleteUser({ id, password, res });
     }
   );
 };

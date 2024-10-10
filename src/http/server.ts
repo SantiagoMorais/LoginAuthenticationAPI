@@ -13,6 +13,7 @@ import { createNewUserRoute } from "./routes/createNewUser.ts";
 import { loginRoute } from "./routes/loginRoute.ts";
 import { getUserRoute } from "./routes/getUserRoute.ts";
 import { updateDataRoute } from "./routes/updateDataRoute.ts";
+import { deleteUserRoute } from "./routes/deleteUserRoute.ts";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 const port = 3000;
@@ -31,6 +32,7 @@ app.register(createNewUserRoute);
 app.register(loginRoute);
 app.register(getUserRoute);
 app.register(updateDataRoute);
+app.register(deleteUserRoute);
 
 mongoose
   .connect(
